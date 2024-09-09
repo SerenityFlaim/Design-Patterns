@@ -1,3 +1,4 @@
+#Task 2 - User Survey
 puts "Username: "
 
 user_name = ARGV[0]
@@ -20,3 +21,16 @@ when "Pascal"
 else
     puts "It will be Ruby soon!"
 end
+
+#Task 3 - User command prompt and execu
+puts "Enter Ruby command -> "
+ruby_command = gets.chomp
+
+puts "Enter OS command -> "
+os_command = gets.chomp
+
+puts "Executing Ruby command..."
+eval(ruby_command)
+
+puts "Executing OS command..."
+exec(os_command)
