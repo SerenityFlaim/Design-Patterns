@@ -33,4 +33,4 @@ puts "Executing Ruby command..."
 eval(ruby_command)
 
 puts "Executing OS command..."
-exec(os_command)
+exec(os_command) #also: os_command = `dir`, puts os_command
