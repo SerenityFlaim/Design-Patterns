@@ -1,1 +1,1 @@
-puts "Hello world!"
+puts "Hello world!" #outputs "Hello world!" to the console.
