@@ -1,7 +1,7 @@
 class Student
 
     #Student constructor
-    def initialize(id, name, surname, patronymic, phone, telegram, email, github)
+    def initialize(name, surname, patronymic, id = nil, phone = nil, telegram = nil, email = nil, github = nil)
         @id = id
         @name = name
         @surname = surname
@@ -10,6 +10,18 @@ class Student
         @telegram = telegram
         @email = email
         @github = github
+    end
+
+    #Show student data
+    def print_info
+        puts "<----------------->"
+        puts "Fullname: #{surname} #{name} #{patronymic}"
+        puts "ID: #{@id ? @id : "---"}"
+        puts "Phone: #{@phone ? @phone : "---"}"
+        puts "Telegram: #{@telegram ? @telegram : "---"}"
+        puts "Email: #{@email ? @email : "---"}"
+        puts "Github: #{@github ? @github : "---"}"
+        puts "<----------------->\n\n"
     end
     
     #id getter
