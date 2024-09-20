@@ -1,6 +1,7 @@
 class Student
 
-    attr_accessor :id, :name, :surname, :patronymic, :phone, :telegram, :email, :github
+    attr_accessor :id, :name, :surname, :patronymic, :telegram, :email, :github
+    attr_reader :phone
 
     #Student constructor
     def initialize(params)
@@ -26,6 +27,20 @@ class Student
         self.email = params[:email]
         self.github = params[:github]
 
+    end
+
+    #phone validation with regular expressions
+    def self.is_phone_valid?(phone_number)
+        phone_pattern = Regexp.compile(/^(?:\+7|8)[\s-]?(?:\(?\d{3}\)?[\s-]?)\d{3}[\s-]?\d{2}[\s-]?\d{2}$/)
+        return phone_pattern.match?(phone_number)
+    end
+
+    #phone setter with validation
+    def phone=(phone_number)
+        if (!self.class.is_phone_valid?(phone_number))
+            raise "Phone number isn't stated correctly"
+        end
+        @phone = phone_number
     end
 
     #Show student data
