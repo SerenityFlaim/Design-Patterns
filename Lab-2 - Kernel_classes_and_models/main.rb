@@ -31,7 +31,7 @@ student_3 = Student.new({
     telegram: "@zaiiran"
 })
 
-student_1.print_info()
-student_2.print_info()
-student_3.print_info()
+puts(student_1.validate?())
+puts(student_2.validate?())
+puts(student_3.validate?())
 # student_4.print_info()

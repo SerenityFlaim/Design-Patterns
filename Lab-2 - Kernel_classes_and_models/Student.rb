@@ -111,6 +111,19 @@ class Student
         @github = github
     end
 
+    def git_stated?()
+        !self.github.nil?
+    end
+
+    def contacts_stated?()
+        !self.phone.nil? || !self.email.nil? || !self.github.nil?
+    end
+
+    def validate?()
+        self.git_stated? && self.contacts_stated?
+    end
+
+
     #Show student data
     def print_info
         puts "<----------------->"
@@ -123,5 +136,6 @@ class Student
         puts "<----------------->\n\n"
     end
 
+    private :git_stated?, :contacts_stated?
 end
 
