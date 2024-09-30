@@ -5,27 +5,25 @@ class Student
 
     #Student constructor
     def initialize(params)
-
+        
         if (!params[:name]) then
-            raise "Name not stated"
+            raise ArgumentError "Name not stated"
         end
         self.name = params[:name]
 
         if (!params[:surname]) then
-            raise "Surname not stated"
+            raise ArgumentError "Surname not stated"
         end
         self.surname = params[:surname]
 
         if (!params[:patronymic]) then
-            raise "Patronymic not stated"
+            raise ArgumentError "Patronymic not stated"
         end
         self.patronymic = params[:patronymic]
 
         self.id = params[:id]
-        self.phone = params[:phone]
-        self.telegram = params[:telegram]
-        self.email = params[:email]
         self.github = params[:github]
+        self.set_contacts(params)
 
     end
 
@@ -56,7 +54,7 @@ class Student
     end
 
     #phone setter with validation
-    def phone=(phone_number)
+    private def phone=(phone_number)
         if (!self.class.is_phone_valid?(phone_number))
             raise "Phone number isn't stated correctly"
         end
@@ -88,7 +86,7 @@ class Student
     end
 
     #telegram setter with validation
-    def telegram=(telegram)
+    private def telegram=(telegram)
         if (!self.class.is_telegram_valid?(telegram))
             raise "Telegram isn't stated correctly"
         end
@@ -96,7 +94,7 @@ class Student
     end
 
     #email setter with validation
-    def email=(email)
+    private def email=(email)
         if (!self.class.is_email_valid?(email))
             raise "Email isn't stated correctly"
         end
@@ -111,29 +109,42 @@ class Student
         @github = github
     end
 
+    #checks whether github is stated
     def git_stated?()
         !self.github.nil?
     end
 
+    #checks whether contacts are stated
     def contacts_stated?()
-        !self.phone.nil? || !self.email.nil? || !self.github.nil?
+        !self.phone.nil? || !self.email.nil? || !self.telegram.nil?
     end
 
+    #checks whether git or contacts stated in an instance
     def validate?()
         self.git_stated? && self.contacts_stated?
     end
 
+    #to_s method override
+    def to_s()
+        "Fullname:  #{surname} #{name} #{patronymic}\n" +
+        "ID:        #{@id ? @id : "---"}\n" +
+        "Phone:     #{@phone ? @phone : "---"}\n" + 
+        "Telegram:  #{@telegram ? @telegram : "---"}\n" +
+        "Email:     #{@email ? @email : "---"}\n" +
+        "Github:    #{@github ? @github : "---"}\n"
+    end
 
-    #Show student data
-    def print_info
+    #show info about student
+    def print_info()
         puts "<----------------->"
-        puts "Fullname:  #{surname} #{name} #{patronymic}"
-        puts "ID:        #{@id ? @id : "---"}"
-        puts "Phone:     #{@phone ? @phone : "---"}"
-        puts "Telegram:  #{@telegram ? @telegram : "---"}"
-        puts "Email:     #{@email ? @email : "---"}"
-        puts "Github:    #{@github ? @github : "---"}"
+        puts (self)
         puts "<----------------->\n\n"
+    end
+
+    def set_contacts(contacts)
+        self.phone = contacts[:phone]
+        self.telegram = contacts[:telegram]
+        self.email = contacts[:email]
     end
 
     private :git_stated?, :contacts_stated?
