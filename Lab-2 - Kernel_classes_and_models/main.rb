@@ -27,13 +27,24 @@ student_3 = Student.new({
     name: "Nikita",
     surname: "Smirnov",
     patronymic: "Olegovich",
-    phone: "89993334545",
-    telegram: "@zaiiran"
+    telegram: "@zaiiran",
+    phone: "89993334545"
 })
 
-puts(student_1.validate?())
-puts(student_2.validate?())
-puts(student_3.validate?())
+student_4 = Student.new({
+    name: "Asiet",
+    surname: "Cheush",
+    patronymic: "Aslanbievna",
+    github: "https://github.com/asyanix",
+    id: 4
+})
+
 student_1.print_info()
 student_2.print_info()
 student_3.print_info()
+student_4.print_info()
+
+puts(student_1.get_info)
+puts(student_2.get_info)
+puts(student_3.get_info)
+puts(student_4.get_info)

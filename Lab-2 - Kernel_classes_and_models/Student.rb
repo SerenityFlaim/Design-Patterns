@@ -56,7 +56,7 @@ class Student
     #phone setter with validation
     private def phone=(phone_number)
         if (!self.class.is_phone_valid?(phone_number))
-            raise "Phone number isn't stated correctly"
+            raise ArgumentError "Phone number isn't stated correctly"
         end
         @phone = phone_number
     end
@@ -64,7 +64,7 @@ class Student
     #firstname setter with validation
     def name=(name)
         if (!self.class.is_name_valid?(name))
-            raise "Firstname isn't stated correctly"
+            raise ArgumentError "Firstname isn't stated correctly"
         end
         @name = name
     end
@@ -72,7 +72,7 @@ class Student
     #surname setter with validation
     def surname=(surname)
         if (!self.class.is_name_valid?(surname))
-            raise "Surname isn't stated correctly"
+            raise ArgumentError "Surname isn't stated correctly"
         end
         @surname = surname
     end
@@ -80,7 +80,7 @@ class Student
     #patronymic setter with validation
     def patronymic=(patronymic)
         if (!self.class.is_name_valid?(patronymic))
-            raise "Patronymic isn't stated correctly"
+            raise ArgumentError "Patronymic isn't stated correctly"
         end
         @patronymic = patronymic
     end
@@ -88,7 +88,7 @@ class Student
     #telegram setter with validation
     private def telegram=(telegram)
         if (!self.class.is_telegram_valid?(telegram))
-            raise "Telegram isn't stated correctly"
+            raise ArgumentError "Telegram isn't stated correctly"
         end
         @telegram = telegram
     end
@@ -96,15 +96,15 @@ class Student
     #email setter with validation
     private def email=(email)
         if (!self.class.is_email_valid?(email))
-            raise "Email isn't stated correctly"
+            raise ArgumentError "Email isn't stated correctly"
         end
         @email = email
     end
 
     #github setter with validation
-    def github=(github)
+    private def github=(github)
         if(!self.class.is_github_valid?(github))
-            raise "Github isn't stated correctly"
+            raise ArgumentError "Github isn't stated correctly"
         end
         @github = github
     end
@@ -145,6 +145,38 @@ class Student
         self.phone = contacts[:phone]
         self.telegram = contacts[:telegram]
         self.email = contacts[:email]
+    end
+
+    def get_initials
+        "#{self.surname} #{self.name[0]}.#{self.patronymic[0]}."
+    end
+
+    def get_git
+        if(git_stated?) then
+            self.github
+        else
+            "github not provided."
+        end
+    end
+
+    def get_contacts
+        if (self.contacts_stated?)
+            if (telegram) then
+                return "telegram: #{self.telegram}"
+            end
+            if (email) then
+                return "email: #{self.email}"
+            end
+            if (phone) then
+                return "phone: #{self.phone}"
+            end
+        else
+            "no contacts provided."
+        end
+    end
+
+    def get_info
+        "#{get_initials} #{self.get_git} #{get_contacts}"
     end
 
     private :git_stated?, :contacts_stated?
