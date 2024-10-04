@@ -141,16 +141,19 @@ class Student
         puts "<----------------->\n\n"
     end
 
+    #sets contacts through hash
     def set_contacts(contacts)
         self.phone = contacts[:phone]
         self.telegram = contacts[:telegram]
         self.email = contacts[:email]
     end
 
+    #gets fullname in a short format
     def get_initials
         "#{self.surname} #{self.name[0]}.#{self.patronymic[0]}."
     end
 
+    #gets github url if provided
     def get_git
         if(git_stated?) then
             self.github
@@ -159,7 +162,8 @@ class Student
         end
     end
 
-    def get_contacts
+    #gets contact if provided in listed order
+    def get_contact
         if (self.contacts_stated?)
             if (telegram) then
                 return "telegram: #{self.telegram}"
@@ -175,8 +179,9 @@ class Student
         end
     end
 
+    #info about a student in a single line
     def get_info
-        "#{get_initials} #{self.get_git} #{get_contacts}"
+        "#{get_initials} #{self.get_git} #{get_contact}"
     end
 
     private :git_stated?, :contacts_stated?

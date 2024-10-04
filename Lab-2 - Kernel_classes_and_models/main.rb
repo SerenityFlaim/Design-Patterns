@@ -1,5 +1,5 @@
 require "./Student.rb"
-
+require "./Student_short.rb"
 # student_1 = Student.new("Philipp", "Matuha", "Andreevich", 1, "88005553535", "@Serenity_flaim", "phil_th@mail.ru", "https://github.com/SerenityFlaim")
 # student_2 = Student.new("Sergey", "Lotarev", "Urievich", 2, "55-11-6782-8390", "@lotarv", "lotarev.serge@yandex.ru", "https://github.com/lotarv")
 # student_3 = Student.new("Nikita", "Smirnov", "Olegovich", 3, "036-738-1441", "@zaiiran", nil, "https://github.com/ZaiiiRan")
@@ -20,7 +20,8 @@ student_2 = Student.new({
     surname: "Lotarev", 
     patronymic: "Urievich", 
     id: 2,
-    telegram: "@lotarv"
+    telegram: "@lotarv",
+    github: "https://github.com/lotarv"
 })
 
 student_3 = Student.new({
@@ -39,12 +40,13 @@ student_4 = Student.new({
     id: 4
 })
 
-student_1.print_info()
-student_2.print_info()
-student_3.print_info()
-student_4.print_info()
-
 puts(student_1.get_info)
 puts(student_2.get_info)
-puts(student_3.get_info)
-puts(student_4.get_info)
+# puts(student_3.get_info)
+# puts(student_4.get_info)
+
+sh_student_1 = Student_short.new_from_student(student_1)
+sh_student_2 = Student_short.new_from_id_string(student_2.id, student_2.get_info)
+
+sh_student_1.print_info()
+sh_student_2.print_info()
