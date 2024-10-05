@@ -1,7 +1,7 @@
-class Student
+require "./Person.rb"
+class Student < Person
 
-    attr_accessor :id
-    attr_reader :phone, :name, :surname, :patronymic, :telegram, :email, :github
+    attr_reader :phone, :name, :surname, :patronymic, :telegram, :email
 
     #Student constructor
     def initialize(params)
@@ -27,30 +27,9 @@ class Student
 
     end
 
-    #phone validation with regular expressions
-    def self.is_phone_valid?(phone_number)
-        phone_pattern = Regexp.compile(/^(?:\+7|8)[\s-]?(?:\(?\d{3}\)?[\s-]?)\d{3}[\s-]?\d{2}[\s-]?\d{2}$/)
-        return phone_number.nil? || phone_pattern.match?(phone_number)
-    end
-
     #any type of name validation with regular expressions
     def self.is_name_valid?(name_string)
         name_string =~ /^[А-ЯA-Z]{1}[а-яa-z]{1,}(-[А-ЯA-Z]{1}[а-яa-z]{1,})?$/
-    end
-
-    #telegram validation with regular expressions
-    def self.is_telegram_valid?(telegram_tag)
-        telegram_tag.nil? || telegram_tag =~ /^@[\w]+/
-    end
-
-    #email validation with regular expressions
-    def self.is_email_valid?(email_address)
-        email_address.nil? || email_address =~ /^[\w+_.\-]+@[a-zA-Z.\-]+\.[a-zA-Z]{2,}$/
-    end
-
-    #github validation with regular expressions
-    def self.is_github_valid?(github_url)
-        github_url.nil? || github_url =~ %r{^https?://github\.com/[a-zA-Z0-9_\-]+$} #%r allows you to have '/' without escaping them
     end
 
     #phone setter with validation
@@ -101,14 +80,6 @@ class Student
         @email = email
     end
 
-    #github setter with validation
-    private def github=(github)
-        if(!self.class.is_github_valid?(github))
-            raise ArgumentError "Github isn't stated correctly"
-        end
-        @github = github
-    end
-
     #checks whether github is stated
     def git_stated?()
         !self.github.nil?
@@ -126,19 +97,14 @@ class Student
 
     #to_s method override
     def to_s()
+        "<----------------->\n" +
         "Fullname:  #{surname} #{name} #{patronymic}\n" +
         "ID:        #{@id ? @id : "---"}\n" +
         "Phone:     #{@phone ? @phone : "---"}\n" + 
         "Telegram:  #{@telegram ? @telegram : "---"}\n" +
         "Email:     #{@email ? @email : "---"}\n" +
-        "Github:    #{@github ? @github : "---"}\n"
-    end
-
-    #show info about student
-    def print_info()
-        puts "<----------------->"
-        puts (self)
-        puts "<----------------->\n\n"
+        "Github:    #{@github ? @github : "---"}\n" +
+        "<----------------->\n\n"
     end
 
     #sets contacts through hash
@@ -149,12 +115,12 @@ class Student
     end
 
     #gets fullname in a short format
-    def get_initials
+    def get_initials()
         "#{self.surname} #{self.name[0]}.#{self.patronymic[0]}."
     end
 
     #gets github url if provided
-    def get_git
+    def get_git()
         if(git_stated?) then
             self.github
         else
@@ -163,16 +129,14 @@ class Student
     end
 
     #gets contact if provided in listed order
-    def get_contact
+    def get_contact()
         if (self.contacts_stated?)
             if (telegram) then
-                return "telegram: #{self.telegram}"
-            end
-            if (email) then
-                return "email: #{self.email}"
-            end
-            if (phone) then
-                return "phone: #{self.phone}"
+                "telegram: #{self.telegram}"
+            elsif (email) then
+                "email: #{self.email}"
+            elsif (phone) then
+                "phone: #{self.phone}"
             end
         else
             "no contacts provided."
@@ -180,8 +144,8 @@ class Student
     end
 
     #info about a student in a single line
-    def get_info
-        "#{get_initials} #{self.get_git} #{get_contact}"
+    def get_info()
+        "#{get_initials} #{get_git} #{get_contact}"
     end
 
     private :git_stated?, :contacts_stated?

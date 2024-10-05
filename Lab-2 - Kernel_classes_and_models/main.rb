@@ -48,5 +48,5 @@ puts(student_2.get_info)
 sh_student_1 = Student_short.new_from_student(student_1)
 sh_student_2 = Student_short.new_from_id_string(student_2.id, student_2.get_info)
 
-sh_student_1.print_info()
-sh_student_2.print_info()
+puts(sh_student_1)
+puts(sh_student_2)
