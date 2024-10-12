@@ -1,7 +1,8 @@
 require "./Person.rb"
 class Student_short < Person
 
-    attr_reader :fullname, :contact
+    attr_reader :fullname
+    #@contact
     private_class_method :new
 
     #default constructor
@@ -34,52 +35,14 @@ class Student_short < Person
         return student_hash
     end
 
-    #validate fullname, github, contact given in hash form
-    private_class_method def self.validate_student_vals(student_hash)
-        fullname, github = student_hash[:fullname], student_hash[:github]
-        contact_split = student_hash[:contact].split(":")
-        contact_type, contact_data = contact_split[0], contact_split[1].strip
-
-        if(!self.is_fullname_valid?(fullname)) then
-            raise ArgumentError "Fullname isnt' stated correctly."
-        end
-
-        if (!self.is_github_valid?(github)) then
-            raise ArgumentError "Github isn't stated correctly."
-        end
-
-        case contact_type
-        when "telegram"
-            if(self.is_telegram_valid?(contact_data)) then
-                contact = contact_data
-            else
-                raise ArgumentError "Telegram isn't stated correctly."
-            end
-        when "email"
-            if(self.is_email_valid?(contact_data)) then
-                contact = contact_data
-            else
-                raise ArgumentError "Email isn't stated correctly."
-            end
-        when "phone"
-            if (self.is_phone_valid?(contact_data)) then
-                contact = contact_data
-            else
-                raise ArgumentError "Email isn't stated correctly."
-            end
-        end
-        return fullname, github, contact
-    end
-
     #constructor from an id and a string from get_info Student method
     def self.new_from_id_string(id, student_string)
         student_hash = self.parse_student_string(student_string)
-        fullname, github, contact = self.validate_student_vals(student_hash)
         self.new(
             id,
-            fullname,
-            github,
-            contact
+            student_hash[:fullname],
+            student_hash[:github],
+            student_hash[:contact]
         )
     end
 
@@ -94,6 +57,14 @@ class Student_short < Person
     #contact setter
     def contact=(contact)
         @contact = contact
+    end
+
+    def contacts_stated?()
+        !self.contact.nil?
+    end
+
+    def get_contact()
+        @contact
     end
 
     #to_s method override

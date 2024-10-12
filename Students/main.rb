@@ -50,3 +50,4 @@ sh_student_2 = Student_short.new_from_id_string(student_2.id, student_2.get_info
 
 puts(sh_student_1)
 puts(sh_student_2)
+puts(sh_student_2)

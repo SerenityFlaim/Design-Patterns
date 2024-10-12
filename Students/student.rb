@@ -80,19 +80,20 @@ class Student < Person
         @email = email
     end
 
-    #checks whether github is stated
-    def git_stated?()
-        !self.github.nil?
+    #telegram validation with regular expressions
+    def self.is_telegram_valid?(telegram_tag)
+        telegram_tag.nil? || telegram_tag =~ /^@[\w]+/
     end
 
-    #checks whether contacts are stated
-    def contacts_stated?()
-        !self.phone.nil? || !self.email.nil? || !self.telegram.nil?
+    #email validation with regular expressions
+    def self.is_email_valid?(email_address)
+        email_address.nil? || email_address =~ /^[\w+_.\-]+@[a-zA-Z.\-]+\.[a-zA-Z]{2,}$/
     end
 
-    #checks whether git or contacts stated in an instance
-    def validate?()
-        self.git_stated? && self.contacts_stated?
+    #phone validation with regular expressions
+    def self.is_phone_valid?(phone_number)
+        phone_pattern = Regexp.compile(/^(?:\+7|8)[\s-]?(?:\(?\d{3}\)?[\s-]?)\d{3}[\s-]?\d{2}[\s-]?\d{2}$/)
+        return phone_number.nil? || phone_pattern.match?(phone_number)
     end
 
     #to_s method override
