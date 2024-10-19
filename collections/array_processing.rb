@@ -9,3 +9,9 @@ def find_unique_element(arr)
     end
     return result
 end
+
+#find two smallest numbers in array
+def find_two_min_elements(arr)
+    arr.sort!()
+    return arr[0], arr[1]
+end
