@@ -15,3 +15,9 @@ def find_two_min_elements(arr)
     arr.sort!()
     return arr[0], arr[1]
 end
+
+#find element in array closest to real R
+def find_closest_real_element(arr, r)
+    result = arr.min_by{|el| (r - el).abs}
+    return result
+end
