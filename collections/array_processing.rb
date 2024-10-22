@@ -21,3 +21,11 @@ def find_closest_real_element(arr, r)
     result = arr.min_by{|el| (r - el).abs}
     return result
 end
+
+#find unique divisors in array of numbers
+def find_unique_divisors(arr)
+    result = Set.new( arr.flat_map {
+        |num| (1..num).select { |divisor| num % divisor == 0}
+    })
+    return result.to_set.sort
+end
