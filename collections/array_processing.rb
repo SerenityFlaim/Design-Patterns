@@ -29,3 +29,10 @@ def find_unique_divisors(arr)
     })
     return result.to_set.sort
 end
+
+#find common (>2 times) squared elemements < 100
+def find_squares(arr)
+    matches = arr.select {|element| arr.count(element) > 2 && element > 0 && element < 100 }
+    result = matches.to_set.map { |element| element * element}
+    return result
+end
