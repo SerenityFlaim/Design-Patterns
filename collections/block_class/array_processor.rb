@@ -13,6 +13,7 @@ class ArrayProcessor
 
     def min_by
         block_arr = []
+        #we do this because min = arr[0] can be smaller than first valid block element
         self.array.each do |el|
             if (yield el) then
                 block_arr << el
@@ -23,6 +24,25 @@ class ArrayProcessor
             min = (yield el) && (el < min) ? el : min
         end
         return min
+    end
+
+    def inject(initial_operand = nil)
+        accumulator = initial_operand.nil? ? self.array[0] : initial_operand
+        start_index = initial_operand.nil? ? 1 : 0
+
+        self.array[start_index..-1].each do |element|
+          accumulator = yield(accumulator, element)
+        end
+      
+        return accumulator
+    end
+
+    def to_s
+        return self.array.to_set
+    end
+
+    def at(ix)
+        return self.array.at(ix)
     end
 
     private
