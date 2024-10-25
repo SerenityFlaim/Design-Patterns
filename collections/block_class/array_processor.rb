@@ -11,12 +11,18 @@ class ArrayProcessor
         end
     end
 
-    def to_s
-        return self.array.to_s
-    end
-
-    def at(ix)
-        return self.array.at(ix)
+    def min_by
+        block_arr = []
+        self.array.each do |el|
+            if (yield el) then
+                block_arr << el
+            end
+        end
+        min = block_arr[0]
+        block_arr.each do |el|
+            min = (yield el) && (el < min) ? el : min
+        end
+        return min
     end
 
     private
