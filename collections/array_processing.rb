@@ -1,13 +1,7 @@
 #find one unique element in array
 def find_unique_element(arr)
-    num_set = arr.to_set
-    unique_arr = num_set.to_a
-    if (arr.count(unique_arr[0]) == 1)
-        result = unique_arr[0]
-    else
-        result = unique_arr[1]
-    end
-    return result
+    unique_arr = arr.to_set.to_a
+    return arr.count(unique_arr[0]) == 1 ? unique_arr[0] : unique_arr[1]
 end
 
 #find two smallest numbers in array
@@ -18,21 +12,15 @@ end
 
 #find element in array closest to real R
 def find_closest_real_element(arr, r)
-    result = arr.min_by{|el| (r - el).abs}
-    return result
+    return result = arr.min_by{|el| (r - el).abs}
 end
 
 #find unique divisors in array of numbers
 def find_unique_divisors(arr)
-    result = Set.new( arr.flat_map {
-        |num| (1..num).select { |divisor| num % divisor == 0}
-    })
-    return result.to_set.sort
+    return result = arr.flat_map {|num| (1..num).select { |divisor| num % divisor == 0}}.sort.to_set
 end
 
 #find common (>2 times) squared elemements < 100
 def find_squares(arr)
-    matches = arr.select {|element| arr.count(element) > 2 && element > 0 && element < 100 }
-    result = matches.to_set.map { |element| element * element}
-    return result
+    return result = arr.select{|element| arr.count(element) > 2 && element > 0 && element < 100 }.to_set.map{ |element| element * element}
 end
