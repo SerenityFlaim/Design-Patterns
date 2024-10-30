@@ -12,15 +12,15 @@ end
 
 #find element in array closest to real R
 def find_closest_real_element(arr, r)
-    return result = arr.min_by{|el| (r - el).abs}
+    return arr.min_by{|el| (r - el).abs}
 end
 
 #find unique divisors in array of numbers
 def find_unique_divisors(arr)
-    return result = arr.flat_map {|num| (1..num).select { |divisor| num % divisor == 0}}.sort.to_set
+    return arr.flat_map {|num| (1..num).select { |divisor| num % divisor == 0}}.sort.to_set.to_a
 end
 
 #find common (>2 times) squared elemements < 100
 def find_squares(arr)
-    return result = arr.select{|element| arr.count(element) > 2 && element > 0 && element < 100 }.to_set.map{ |element| element * element}
+    return arr.select{|element| arr.count(element) > 2 && element > 0 && element < 100 }.to_set.map{ |element| element * element}
 end

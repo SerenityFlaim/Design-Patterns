@@ -37,6 +37,19 @@ class ArrayProcessor
         return accumulator
     end
 
+    def one?
+        counter = 0
+        self.array.each do |el|
+            if (yield el) then
+                 counter += 1 
+            end
+            if counter > 1 then 
+                return false
+            end
+        end
+        return counter == 0 ? false : true
+    end
+
     def to_s
         return self.array.to_set
     end
