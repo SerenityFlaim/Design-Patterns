@@ -50,6 +50,26 @@ class ArrayProcessor
         return counter == 0 ? false : true
     end
 
+    #recreation of flatten method, which is used in flat_map method recreation
+    def recursive_flatten(arr, result = [])
+        arr.each do |el|
+            if el.class == Array
+                recursive_flatten(el, result)
+            else
+                result << el
+            end
+        end
+        return result
+    end
+
+    def flat_map
+        flat_arr = recursive_flatten(self.array)
+        for i in 0...flat_arr.count do
+            flat_arr[i] = yield flat_arr[i]
+        end
+        return flat_arr
+    end
+
     def to_s
         return self.array.to_set
     end
@@ -60,4 +80,5 @@ class ArrayProcessor
 
     private
     attr_accessor :array
+    recursive_flatten
 end
