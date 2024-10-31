@@ -70,6 +70,15 @@ class ArrayProcessor
         return flat_arr
     end
 
+    def all?
+        self.array.each do |el|
+            if !(yield el) then
+                return false
+            end
+        end
+        return true
+    end
+
     def to_s
         return self.array.to_set
     end
@@ -80,5 +89,5 @@ class ArrayProcessor
 
     private
     attr_accessor :array
-    recursive_flatten
+    :recursive_flatten
 end
