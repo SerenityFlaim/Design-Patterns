@@ -3,6 +3,7 @@ class ArrayProcessor
         self.array = arr
     end
 
+    #returns the first element for which the block returns a truthy value
     def find
         self.array.each do |el|
             if (yield el) then
@@ -11,21 +12,16 @@ class ArrayProcessor
         end
     end
 
+    #returns the elements for which the block returns the minimum value
     def min_by
-        block_arr = []
-        #we do this because min = arr[0] can be smaller than first valid block element
+        result = self.array[0]
         self.array.each do |el|
-            if (yield el) then
-                block_arr << el
-            end
+            result = el if yield(el) < yield(result)
         end
-        min = block_arr[0]
-        block_arr.each do |el|
-            min = (yield el) && (el < min) ? el : min
-        end
-        return min
+        return result
     end
-
+    
+    #passes each operand to a block an returns accumulative operation
     def inject(initial_operand = nil)
         accumulator = initial_operand.nil? ? self.array[0] : initial_operand
         start_index = initial_operand.nil? ? 1 : 0
@@ -37,6 +33,7 @@ class ArrayProcessor
         return accumulator
     end
 
+    #returns true if exactly one element of self meets a given criterion
     def one?
         counter = 0
         self.array.each do |el|
@@ -62,6 +59,7 @@ class ArrayProcessor
         return result
     end
 
+    #returns an array of flattened objects returned by the block
     def flat_map
         flat_arr = recursive_flatten(self.array)
         for i in 0...flat_arr.count do
@@ -70,6 +68,7 @@ class ArrayProcessor
         return flat_arr
     end
 
+    #returns whether every element meets a given criterion
     def all?
         self.array.each do |el|
             if !(yield el) then
@@ -80,7 +79,7 @@ class ArrayProcessor
     end
 
     def to_s
-        return self.array.to_set
+        return self.array.to_s
     end
 
     def at(ix)
