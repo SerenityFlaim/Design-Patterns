@@ -1,7 +1,9 @@
-require "./Person.rb"
+require "./person.rb"
+require "date"
 class Student < Person
+    include Comparable
 
-    attr_reader :phone, :name, :surname, :patronymic, :telegram, :email
+    attr_reader :phone, :name, :surname, :patronymic, :telegram, :email, :birthdate
 
     #Student constructor
     def initialize(params)
@@ -24,20 +26,12 @@ class Student < Person
         self.id = params[:id]
         self.github = params[:github]
         self.set_contacts(params)
-
+        self.birthdate = params[:birthdate]
     end
 
     #any type of name validation with regular expressions
     def self.is_name_valid?(name_string)
         name_string =~ /^[А-ЯA-Z]{1}[а-яa-z]{1,}(-[А-ЯA-Z]{1}[а-яa-z]{1,})?$/
-    end
-
-    #phone setter with validation
-    private def phone=(phone_number)
-        if (!self.class.is_phone_valid?(phone_number))
-            raise ArgumentError "Phone number isn't stated correctly"
-        end
-        @phone = phone_number
     end
 
     #firstname setter with validation
@@ -47,7 +41,7 @@ class Student < Person
         end
         @name = name
     end
-
+    
     #surname setter with validation
     def surname=(surname)
         if (!self.class.is_name_valid?(surname))
@@ -55,13 +49,21 @@ class Student < Person
         end
         @surname = surname
     end
-
+    
     #patronymic setter with validation
     def patronymic=(patronymic)
         if (!self.class.is_name_valid?(patronymic))
             raise ArgumentError "Patronymic isn't stated correctly"
         end
         @patronymic = patronymic
+    end
+
+    #phone setter with validation
+    private def phone=(phone_number)
+        if (!self.class.is_phone_valid?(phone_number))
+            raise ArgumentError "Phone number isn't stated correctly"
+        end
+        @phone = phone_number
     end
 
     #telegram setter with validation
@@ -78,6 +80,15 @@ class Student < Person
             raise ArgumentError "Email isn't stated correctly"
         end
         @email = email
+    end
+
+    #birthdate setter
+    private def birthdate=(birthdate)
+        begin
+            @birthdate = Date.strptime(birthdate, '%d-%m-%Y')
+        rescue Exception
+            raise ArgumentError "Date in wrong format"
+        end
     end
 
     #telegram validation with regular expressions
@@ -105,6 +116,7 @@ class Student < Person
         "Telegram:  #{@telegram ? @telegram : "---"}\n" +
         "Email:     #{@email ? @email : "---"}\n" +
         "Github:    #{@github ? @github : "---"}\n" +
+        "Birthdate: #{@birthdate ? birthdate.strftime("%d-%m-%Y") : "---"}\n" + #"#{birthdate.day}-#{birthdate.month}-#{birthdate.year}"
         "<----------------->\n\n"
     end
 
@@ -149,6 +161,10 @@ class Student < Person
         "#{get_initials} #{get_git} #{get_contact}"
     end
 
+    #spaceship compares by birthdate
+    def <=>(other)
+        return self.birthdate <=> other.birthdate
+    end
+
     private :git_stated?, :contacts_stated?
 end
-
