@@ -11,14 +11,16 @@ class Tag
     #returns a map containing attributes of a tag
     def self.parse_attributes(attributes_str)
         attributes = {}
+        attr_values = attributes_str.scan(/([a-zA-Z]+)="([^" >]*)"/)
         attributes_str.scan(/([a-zA-Z]+)="([^" >]*)"/) do |key, value| #every match becomes an element in array
             attributes[key] = value
         end
         return attributes
     end
 
-    def self_closing?
-        return self.name.include?("br") || self.name.include?("input")
+    def self.self_closing?(tag_text)
+        name = tag_text.split(/\s+/, 2)[0]
+        return name.include?("br") || name.include?("input")
     end
 
     def append_child(child)
@@ -39,13 +41,9 @@ class Tag
         return tag_str = tag_str[0..-2] + ">"
     end
 
+    #print out closing html tag
     def close_tag
         return "</#{self.name}>"
     end
 
 end
-
-# tag_a_str = "<a href=\"https://github.com/SerenityFlaim\", class=\"web-link\">"
-# tag_parsed = Tag.parse_attributes(tag_a_str)
-# tag_a = Tag.new(name: "a", attributes: tag_parsed)
-# print(tag_a.open_tag)
