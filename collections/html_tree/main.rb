@@ -36,6 +36,9 @@ html_string =
 </html>"
 
 html_tree = Tree.new(html_string)
+puts(html_tree.count)
+elements = html_tree.select {|node| node.name == "div" }
+elements.each {|node| puts(node.name)}
 
 def print_html_dfs(html_tree)
   iterator = html_tree.dfs_iterator
@@ -74,8 +77,9 @@ def print_open_tags_bfs(html_tree)
   iterator.each { |node| puts node.open_tag}
 end
 
-puts "HTML"
-print_html_dfs(html_tree)
+# puts "HTML"
+# print_html_dfs(html_tree)
 
-puts "\nIncomplete BFS HTML:"
-print_open_tags_bfs(html_tree)
+# puts "\nIncomplete BFS HTML:"
+# print_open_tags_bfs(html_tree)
+

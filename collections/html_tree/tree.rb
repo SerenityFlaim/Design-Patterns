@@ -3,7 +3,8 @@ require './iterator_dfs.rb'
 require './iterator_bfs.rb'
 
 class Tree
-    attr_accessor :root, :stack
+    include Enumerable
+    private attr_accessor :root, :stack
 
     def initialize(html_string)
         self.stack = []
@@ -77,6 +78,11 @@ class Tree
         
     def populate_content(cur_text, cur_parent)
         cur_parent.content += cur_text if cur_parent
+    end
+
+    def each
+        dfs_iterator_each = self.dfs_iterator
+        dfs_iterator_each.each {|node| yield node}
     end
 
 end

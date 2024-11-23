@@ -1,4 +1,4 @@
-require "./Person.rb"
+require "./person.rb"
 class Student_short < Person
 
     attr_reader :fullname

@@ -116,7 +116,7 @@ class Student < Person
         "Telegram:  #{@telegram ? @telegram : "---"}\n" +
         "Email:     #{@email ? @email : "---"}\n" +
         "Github:    #{@github ? @github : "---"}\n" +
-        "Birthdate: #{@birthdate ? birthdate.strftime("%d-%m-%Y") : "---"}\n" + #"#{birthdate.day}-#{birthdate.month}-#{birthdate.year}"
+        "Birthdate: #{@birthdate ? birthdate.strftime("%d-%m-%Y") : "---"}\n" +
         "<----------------->\n\n"
     end
 

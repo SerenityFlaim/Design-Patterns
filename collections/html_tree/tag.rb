@@ -1,5 +1,7 @@
 class Tag
-    attr_accessor :name, :attributes, :children, :content
+    attr_reader :name, :attributes, :children, :content
+    attr_writer :content
+    private attr_writer :name, :attributes, :children
     
     def initialize(name: "", attributes: {}, children: [], content: "")
         self.name = name
@@ -45,5 +47,4 @@ class Tag
     def close_tag
         return "</#{self.name}>"
     end
-
 end
