@@ -1,8 +1,7 @@
-require "./student.rb"
 require "./student_short.rb"
-require "./binary_student_tree.rb"
-require "./data_list_student_short.rb"
-require "./data_table.rb"
+require "./student.rb"
+require_relative "data_table/data_table.rb"
+require_relative "data_list/data_list_student_short.rb"
 # student_1 = Student.new("Philipp", "Matuha", "Andreevich", 1, "88005553535", "@Serenity_flaim", "phil_th@mail.ru", "https://github.com/SerenityFlaim")
 # student_2 = Student.new("Sergey", "Lotarev", "Urievich", 2, "55-11-6782-8390", "@lotarv", "lotarev.serge@yandex.ru", "https://github.com/lotarv")
 # student_3 = Student.new("Nikita", "Smirnov", "Olegovich", 3, "036-738-1441", "@zaiiran", nil, "https://github.com/ZaiiiRan")
