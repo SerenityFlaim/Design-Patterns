@@ -55,7 +55,6 @@ sh_4 = Student_short.new_from_student(student_4)
 st_sh_list = DataList_student_short.new([sh_1, sh_2, sh_3, sh_4])
 st_sh_table = st_sh_list.get_data
 puts(st_sh_table, "\n")
-
 st_sh_list.set_list([sh_2, sh_3, sh_4])
 st_sh_table = st_sh_list.get_data
 puts(st_sh_table)

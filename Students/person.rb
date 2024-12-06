@@ -17,12 +17,12 @@ class Person
     end
 
     #checks whether github is stated
-    def git_stated?()
+    private def git_stated?()
         !self.github.nil?
     end
 
     #checks whether contacts are stated
-    def contacts_stated?()
+    private def contacts_stated?()
         !self.phone.nil? || !self.email.nil? || !self.telegram.nil?
     end
 

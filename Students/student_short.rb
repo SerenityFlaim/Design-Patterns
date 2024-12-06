@@ -3,6 +3,7 @@ class Student_short < Person
 
     include Comparable
     attr_reader :fullname
+    private attr_writer :contact
     private_class_method :new
 
     #default constructor
@@ -24,7 +25,7 @@ class Student_short < Person
     end
 
     #parse get_info string for Student_short constructor
-    private_class_method def self.parse_student_string(student_string)
+    def self.parse_student_string(student_string)
         split = student_string.split()
         fullname, github, contact = split[0] + " " + split[1], split[2], split[3] + " " + split[4]
         student_hash = {
@@ -52,11 +53,6 @@ class Student_short < Person
             raise ArgumentError "Fullname isnt' stated correctly."
         end
         @fullname = fullname
-    end
-
-    #contact setter
-    def contact=(contact)
-        @contact = contact
     end
 
     def contacts_stated?()
