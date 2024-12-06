@@ -1,8 +1,8 @@
 require "./person.rb"
 class Student_short < Person
 
+    include Comparable
     attr_reader :fullname
-    #@contact
     private_class_method :new
 
     #default constructor
@@ -80,5 +80,15 @@ class Student_short < Person
     #fullname validation with regular expressions
     def self.is_fullname_valid?(fullname_string)
         fullname_string =~ /^[А-ЯЁA-Z][а-яёa-z]{1,}(-[А-ЯЁA-Z][а-яёa-z]{1,})?\s[А-ЯЁA-Z].\s?[А-ЯЁA-Z].$/
+    end
+
+    def <=>(other)
+        if self.fullname > other.fullname
+            return 1
+        elsif self.fullname == other.fullname
+            return 0
+        else
+            return -1
+        end
     end
 end

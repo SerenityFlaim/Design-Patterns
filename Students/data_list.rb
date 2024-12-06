@@ -3,7 +3,7 @@ class DataList
     private attr_accessor :array
 
     def initialize(arr)
-        self.array = arr
+        self.array = arr.sort()
     end
 
     def select(number)
@@ -37,8 +37,12 @@ class DataList
         return DataTable.new(table)
     end
 
+    def set_list(new_list)
+        self.array.clear()
+        self.array = new_list.sort()
+    end
+
     def to_s()
         return self.array.to_s
     end
-
 end
