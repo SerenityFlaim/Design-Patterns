@@ -1,6 +1,8 @@
 require "./student.rb"
 require "./student_short.rb"
 require "./binary_student_tree.rb"
+require "./data_list_student_short.rb"
+require "./data_table.rb"
 # student_1 = Student.new("Philipp", "Matuha", "Andreevich", 1, "88005553535", "@Serenity_flaim", "phil_th@mail.ru", "https://github.com/SerenityFlaim")
 # student_2 = Student.new("Sergey", "Lotarev", "Urievich", 2, "55-11-6782-8390", "@lotarv", "lotarev.serge@yandex.ru", "https://github.com/lotarv")
 # student_3 = Student.new("Nikita", "Smirnov", "Olegovich", 3, "036-738-1441", "@zaiiran", nil, "https://github.com/ZaiiiRan")
@@ -45,14 +47,11 @@ student_4 = Student.new({
     birthdate: "22-02-2005"
 })
 
+sh_1 = Student_short.new_from_student(student_1)
+sh_2 = Student_short.new_from_student(student_2)
+sh_3 = Student_short.new_from_student(student_3)
+sh_4 = Student_short.new_from_student(student_4)
 
-st_t = StudentTree.new()
-
-st_t.append(student_2)
-st_t.append(student_1)
-st_t.append(student_3)
-st_t.append(student_4)
-
-st_t.print_tree
-
-st_t.each {|student| puts(student.name)}
+st_sh_list = DataList_student_short.new([sh_1, sh_2, sh_3, sh_4])
+st_sh_table = st_sh_list.get_data
+puts(st_sh_table)

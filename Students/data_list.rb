@@ -1,8 +1,9 @@
+require './data_table.rb'
 class DataList
     private attr_accessor :array
 
     def initialize(arr)
-        self.array = arr.sort()
+        self.array = arr
     end
 
     def select(number)
@@ -23,11 +24,18 @@ class DataList
     def get_names()
         raise NotImplementedError
     end
-
-    def get_data()
+    
+    def preprocess_data(table)
         raise NotImplementedError
     end
 
+    #template method for returning a data table
+    def get_data()
+        names = self.get_names #step 1 that needs to be implemented
+        table = [names]
+        preprocess_data(table) #step 2 that needs to be implemented
+        return DataTable.new(table)
+    end
 
     def to_s()
         return self.array.to_s
