@@ -1,34 +1,30 @@
-require 'yaml'
 require './student.rb'
 require './student_short.rb'
 require './data_list_student_short.rb'
 require './binary_student_tree.rb'
+class Student_list_file
+    private attr_accessor :student_list, :data_storage_strategy
 
-class Student_list_YAML
-    public attr_accessor :student_list
-
-    def initialize(file_path)
-        self.student_list = student_from_YAML(file_path)
+    def initialize(file_path, data_storage_strategy)
+        self.data_storage_strategy = data_storage_strategy
+        self.student_list = data_storage_strategy.read(file_path)
     end
 
-    def student_from_YAML(file_path)
-        if (File.exist?(file_path))
-            yaml_arr = YAML.safe_load(File.read(file_path), permitted_classes: [Date, Symbol])
-            yaml_arr.map do |object|
-                Student.new_from_hash(object)
-            end
-        end
+    #return student objects list from file of choice
+    def read(file_path)
+        return self.data_storage_strategy.read(file_path)
     end
 
-    def student_to_YAML(file_path, students)
-        student_hash = students.map {|student| student.to_h}
-        File.write(file_path, student_hash.to_yaml)
+    #write student objects list to file of choice
+    def write(file_path)
+        self.data_storage_strategy.write(file_path, self.student_list)
     end
 
     def get_student_by_id(id)
         self.student_list.find {|student| student.id == id}
     end
 
+    #return DataList_student_short object containing n objects of k page
     def get_k_n_student_short_list(k, n, data_list = nil)
         start = (k - 1) * n
         students_short = self.student_list.map {|student| Student_short.new_from_student(student)}
@@ -36,10 +32,12 @@ class Student_list_YAML
         return data_list.set_list((data_list.get_selected(start, start + n)))
     end
 
+    #sorts by initials
     def sort_by_fullname!
         self.student_list.sort_by! {|student| student.get_initials}
     end
 
+    #adds student object to student list
     def append_student(student)
         begin
             check_unique_fields(email: student.email, telegram: student.telegram, phone: student.phone, github: student.github)
@@ -52,6 +50,7 @@ class Student_list_YAML
         self.student_list << student
     end
 
+    #checks whether fields collide using binary tree structure
     def check_unique_fields(email: nil, telegram: nil, phone: nil, github: nil)
         if !email.nil? && !unique_email?(email)
             raise 'Current email already exists.'
@@ -86,6 +85,7 @@ class Student_list_YAML
         return unique?(:phone, phone)
     end
 
+    #returns whether or not given key_value of key_type of student collides
     def unique?(key_type, key_val)
         tree = StudentTree.new
         self.student_list.each do |student|
@@ -113,4 +113,5 @@ class Student_list_YAML
     def get_student_short_count
         return self.student_list.size
     end
+
 end
