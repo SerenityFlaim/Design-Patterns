@@ -1,7 +1,7 @@
 class Person
 
     attr_reader :id, :github
-    private attr_writer :id
+    attr_writer :id
 
     #github validation with regular expressions
     def self.is_github_valid?(github_url)

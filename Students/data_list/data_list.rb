@@ -1,9 +1,11 @@
 require_relative '../data_table/data_table.rb'
 class DataList
     private attr_accessor :array
+    attr_accessor :index
 
     def initialize(arr)
         self.array = arr.sort()
+        self.index = 0
     end
 
     def select(number)

@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "name": "Philipp",
+    "surname": "Matuha",
+    "patronymic": "Andreevich",
+    "telegram": "@Serenity_flaim",
+    "phone": "+7(918)-010-67-15",
+    "email": "phil_th@mail.ru",
+    "github": "https://github.com/SerenityFlaim"
+  },
+  {
+    "id": 2,
+    "name": "Sergey",
+    "surname": "Lotarev",
+    "patronymic": "Urievich",
+    "telegram": "@lotarv",
+    "phone": null,
+    "email": null,
+    "github": "https://github.com/lotarv"
+  },
+  {
+    "id": 3,
+    "name": "Nikita",
+    "surname": "Smirnov",
+    "patronymic": "Olegovich",
+    "telegram": "@zaiiran",
+    "phone": "89993334545",
+    "email": null,
+    "github": null
+  },
+  {
+    "id": 4,
+    "name": "Asiet",
+    "surname": "Cheush",
+    "patronymic": "Aslanbievna",
+    "telegram": null,
+    "phone": null,
+    "email": null,
+    "github": "https://github.com/asyanix"
+  }
+]

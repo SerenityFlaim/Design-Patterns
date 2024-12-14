@@ -161,6 +161,19 @@ class Student < Person
         "#{get_initials} #{get_git} #{get_contact}"
     end
 
+    def to_h
+        return {
+            id: self.id,
+            name: self.name,
+            surname: self.surname,
+            patronymic: self.patronymic,
+            telegram: self.telegram,
+            phone: self.phone,
+            email: self.email,
+            github: self.github
+        }
+    end
+
     #spaceship compares by birthdate
     def <=>(other)
         return self.birthdate <=> other.birthdate
