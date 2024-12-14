@@ -1,0 +1,32 @@
+- id: 1
+  name: Philipp
+  surname: Matuha
+  patronymic: Andreevich
+  telegram: "@Serenity_flaim"
+  phone: "+7(918)-010-67-15"
+  email: "phil_th@mail.ru"
+  github: "https://github.com/SerenityFlaim"
+  birthdate: "09-06-2004"
+
+- id: 2
+  name: Sergey
+  surname: Lotarev
+  patronymic: Urievich
+  telegram: "@lotarv"
+  github: "https://github.com/lotarv"
+  birthdate: "26-10-2004"
+
+- id: 3
+  name: Nikita
+  surname: Smirnov
+  patronymic: Olegovich
+  telegram: "@zaiiran"
+  phone: "89993334545"
+  birthdate: "03-06-2004"
+
+- id: 4
+  name: Asiet
+  surname: Cheush
+  patronymic: Aslanbievna
+  github: "https://github.com/asyanix"
+  birthdate: "22-02-2005"

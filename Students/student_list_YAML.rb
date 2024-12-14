@@ -1,28 +1,28 @@
-require 'json'
+require 'yaml'
 require './student.rb'
 require './student_short.rb'
 require './data_list_student_short.rb'
 require './binary_student_tree.rb'
-class Student_list_JSON
-    private attr_accessor :student_list
+
+class Student_list_YAML
+    public attr_accessor :student_list
 
     def initialize(file_path)
-        self.student_list = student_from_JSON(file_path)
+        self.student_list = student_from_YAML(file_path)
     end
 
-    def student_from_JSON(file_path)
+    def student_from_YAML(file_path)
         if (File.exist?(file_path))
-            json_arr = JSON.parse(File.read(file_path), symbolize_names: true)
-            json_arr.map do |object|
-                Student.new(**object)
+            yaml_arr = YAML.safe_load(File.read(file_path), permitted_classes: [Date, Symbol])
+            yaml_arr.map do |object|
+                Student.new_from_hash(object)
             end
         end
     end
 
-    def student_to_JSON(file_path, students)
-        student_hash = {}
+    def student_to_YAML(file_path, students)
         student_hash = students.map {|student| student.to_h}
-        File.write(file_path, JSON.pretty_generate(student_hash))
+        File.write(file_path, student_hash.to_yaml)
     end
 
     def get_student_by_id(id)
@@ -113,5 +113,4 @@ class Student_list_JSON
     def get_student_short_count
         return self.student_list.size
     end
-
 end

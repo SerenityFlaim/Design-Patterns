@@ -174,6 +174,10 @@ class Student < Person
         }
     end
 
+    def self.new_from_hash(hash)
+        self.new(**hash.transform_keys(&:to_sym))
+    end
+
     #spaceship compares by birthdate
     def <=>(other)
         return self.birthdate <=> other.birthdate
