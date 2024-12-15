@@ -85,7 +85,7 @@ class Student < Person
     #birthdate setter
     private def birthdate=(birthdate)
         begin
-            @birthdate = Date.strptime(birthdate, '%d-%m-%Y')
+            @birthdate = Date.strptime(birthdate, '%Y-%m-%d')
         rescue Exception
             raise ArgumentError "Date in wrong format"
         end
