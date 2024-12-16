@@ -114,4 +114,12 @@ class Student_list_file
         return self.student_list.size
     end
 
+    def to_s
+        result = ""
+        student_list.each do |student|
+            result += student.to_s
+        end
+        return result
+    end
+
 end
