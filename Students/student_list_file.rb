@@ -69,24 +69,24 @@ class Student_list_file
         end
     end
 
-    def unique_email?(email)
+    private def unique_email?(email)
         return unique?(:email, email)
     end
 
-    def unique_telegram?(telegram)
+    private def unique_telegram?(telegram)
         return unique?(:telegram, telegram)
     end
 
-    def unique_github?(github)
+    private def unique_github?(github)
         return unique?(:github, github)
     end
 
-    def unique_phone?(phone)
+    private def unique_phone?(phone)
         return unique?(:phone, phone)
     end
 
     #returns whether or not given key_value of key_type of student collides
-    def unique?(key_type, key_val)
+    private def unique?(key_type, key_val)
         tree = StudentTree.new
         self.student_list.each do |student|
             tree.append(student)
