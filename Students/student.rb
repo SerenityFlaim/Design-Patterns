@@ -1,5 +1,6 @@
 require "./person.rb"
 require "date"
+require './binary_student_tree.rb'
 class Student < Person
     include Comparable
 
@@ -181,6 +182,25 @@ class Student < Person
     #spaceship compares by birthdate
     def <=>(other)
         return self.birthdate <=> other.birthdate
+    end
+
+    def ==(other)
+        if email.nil? || self.email == other.email
+            return false
+        end
+
+        if telegram.nil? || self.telegram == other.email
+            return false
+        end
+
+        if phone.nil? || self.phone == other.phone
+            return false
+        end
+
+        if github.nil? || self.github == other.github
+            return false
+        end
+        return true
     end
 
     private :git_stated?, :contacts_stated?

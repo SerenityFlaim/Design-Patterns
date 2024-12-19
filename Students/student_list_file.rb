@@ -40,7 +40,7 @@ class Student_list_file
     #adds student object to student list
     def append_student(student)
         begin
-            check_unique_fields(email: student.email, telegram: student.telegram, phone: student.phone, github: student.github)
+            unique?(student)
         rescue => ex
             raise ex
         end
@@ -50,55 +50,20 @@ class Student_list_file
         self.student_list << student
     end
 
-    #checks whether fields collide using binary tree structure
-    def check_unique_fields(email: nil, telegram: nil, phone: nil, github: nil)
-        if !email.nil? && !unique_email?(email)
-            raise 'Current email already exists.'
-        end
-
-        if !telegram.nil? && !unique_telegram?(telegram)
-            raise 'Current telegram already exists'
-        end
-
-        if !phone.nil? && !unique_phone?(phone)
-            raise 'Current phone already exists'
-        end
-
-        if !github.nil? && !unique_github?(github)
-            raise 'Current github already exists'
-        end
-    end
-
-    private def unique_email?(email)
-        return unique?(:email, email)
-    end
-
-    private def unique_telegram?(telegram)
-        return unique?(:telegram, telegram)
-    end
-
-    private def unique_github?(github)
-        return unique?(:github, github)
-    end
-
-    private def unique_phone?(phone)
-        return unique?(:phone, phone)
-    end
-
-    #returns whether or not given key_value of key_type of student collides
-    private def unique?(key_type, key_val)
+    #checks whether attribute values collide using binary tree structure
+    private def unique?(student)
         tree = StudentTree.new
         self.student_list.each do |student|
             tree.append(student)
         end
-        return tree.find{|student| student.send(key_type) == key_val}.nil?
+        return !tree.find{|stud_node| stud_node == student}
     end
 
     def replace_by_id(id, new_student)
         ix = self.student_list.find_index{|student| student.id == id}
         raise IndexError 'Unknown student id' if ix.nil?
         begin
-            check_unique_fields(email: new_student.email, telegram: new_student.telegram, phone: new_student.phone, github: new_student.github)
+            unique?(new_student)
         rescue => ex
             raise ex
         end
