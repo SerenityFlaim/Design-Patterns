@@ -6,10 +6,10 @@ require_relative 'data_table/data_table.rb'
 include Fox
 
 class StudentListView < FXMainWindow
-    private attr_accessor :filters, :table, :prev_button, :next_button, :total_pages, :items_per_page, :page_index, :current_page
+    private attr_accessor :filters, :table, :prev_button, :next_button, :total_pages, :items_per_page, :page_index, :current_page, :delete_button, :edit_button
 
     def initialize(app)
-        super(app, "Students", width: 1024, height: 768)
+        super(app, "Students View", width: 1024, height: 768)
 
         self.filters = {}
         self.current_page = 1
@@ -23,6 +23,9 @@ class StudentListView < FXMainWindow
 
         table_segment = FXVerticalFrame.new(main_frame, LAYOUT_FILL, padding: 10)
         setup_table_segment(table_segment)
+
+        crud_segment = FXVerticalFrame.new(main_frame, LAYOUT_FIX_WIDTH, width: 130, padding: 10)
+        setup_crud_segment(crud_segment)
     end
 
     def create
@@ -41,6 +44,11 @@ class StudentListView < FXMainWindow
         add_filter_row(parent, "Email:")
         add_filter_row(parent, "Phone:")
         add_filter_row(parent, "Telegram:")
+
+        FXButton.new(parent, "Сбросить", opts: BUTTON_NORMAL).connect(SEL_COMMAND) do
+            reset_filters(parent)
+            parent.recalc
+        end
     end
 
     def add_filter_row(parent, label)
@@ -80,9 +88,12 @@ class StudentListView < FXMainWindow
         end
 
         navigation_segment = FXHorizontalFrame.new(parent, opts: LAYOUT_FILL_X)
-        self.prev_button = FXButton.new(navigation_segment, "<<<", opts: LAYOUT_LEFT)
+        self.prev_button = FXButton.new(navigation_segment, "<<<", opts: LAYOUT_LEFT | BUTTON_NORMAL)
         self.page_index = FXButton.new(navigation_segment, "1", opts: LAYOUT_CENTER_X)
-        self.next_button = FXButton.new(navigation_segment, ">>>", opts: LAYOUT_RIGHT)
+        self.next_button = FXButton.new(navigation_segment, ">>>", opts: LAYOUT_RIGHT | BUTTON_NORMAL)
+
+        self.prev_button.connect(SEL_COMMAND) {change_page(-1)}
+        self.next_button.connect(SEL_COMMAND) {change_page(1)}
 
         #hardcode example
         self.table.setItemText(1, 0, "1")
@@ -101,6 +112,30 @@ class StudentListView < FXMainWindow
         self.table.setItemText(3, 3, "telegram: @Zaiiiran")
 
         align_table_items
+    end
+
+    def setup_crud_segment(parent)
+        FXLabel.new(parent, "CRUD", opts: LAYOUT_FILL_X)
+
+        add_button = FXButton.new(parent, "Добавить", opts: LAYOUT_FILL_X | BUTTON_NORMAL)
+        self.delete_button = FXButton.new(parent, "Удалить", opts: LAYOUT_FILL_X | BUTTON_NORMAL)
+        self.edit_button = FXButton.new(parent, "Изменить", opts: LAYOUT_FILL_X | BUTTON_NORMAL)
+        refresh_button = FXButton.new(parent, "Обновить", opts: LAYOUT_FILL_X | BUTTON_NORMAL)
+
+        self.table.connect(SEL_CHANGED) {update_buttons_state}
+    end
+
+    def update_buttons_state
+        selected_rows = (0...self.table.numRows).select {|row| self.table.rowSelected?(row)}
+        puts "Selected rows: #{selected_rows.inspect}"
+        self.delete_button.enabled = !selected_rows.empty?
+        self.edit_button.enabled = (selected_rows.size == 1)
+    end
+
+    def change_page(offset)
+        new_page = self.current_page + offset
+        return if new_page < 1 || new_page > self.total_pages
+        self.current_page = new_page
     end
 
     def align_table_items
@@ -125,10 +160,19 @@ class StudentListView < FXMainWindow
         return table
     end
 
+    def populate_table(data_table)
+        clear_table
+        (0...data_table.get_logs_count).each do |row|
+            (0...data_table.get_columns_count).each do |col|
+                self.table.setItemText(row, col, data_table.get_element(row, col).to_s)
+            end
+        end
+    end
+
     def sort_table_by_column(col_ix)
         table = read_table_from_view
-        list = []
 
+        list = []
         table.each do |row|
             list << Student_short.new_from_id_string(row[0], "#{row[1]} #{row[2]} #{row[3]}")
         end
@@ -136,9 +180,27 @@ class StudentListView < FXMainWindow
         dl_stud_short = DataList_student_short.new(list)
         sorted_table = dl_stud_short.get_data
         
-        (0...sorted_table.get_logs_count).each do |row|
-            (0...sorted_table.get_columns_count).each do |col|
-                self.table.setItemText(row, col, sorted_table.get_element(row, col).to_s)
+        populate_table(sorted_table)
+    end
+
+    def clear_table
+        (0...self.table.numRows).each do |row|
+            (0...self.table.numColumns).each do |col|
+                self.table.setItemText(row, col, "")
+            end
+        end
+    end
+
+    def reset_filters(parent)
+        self.filters.each do |key, field|
+            field[:combo].setCurrentItem(0) if !field[:combo].nil?
+            field[:text_field].text = ""
+            field[:text_field].visible = false if key != 'name'
+        end
+
+        parent.each_child do |child|
+            if child.is_a?(FXComboBox)
+                child.setCurrentItem(0)
             end
         end
     end
