@@ -1,0 +1,93 @@
+@startuml
+actor User as user
+participant ":main" as main
+participant "app:FXapp" as app
+participant ":StudentListView" as view
+participant ":Student_list_controller" as controller
+participant ":Student_list_file" as sl_file
+participant ":DataList_student_short" as data_list
+
+activate user
+user -> main : run
+activate main
+
+main -> app : new()
+activate app
+
+app --> main : return
+deactivate app
+
+main -> view : new(app)
+activate view
+
+main -> view : app.create()
+main -> view : app.run()
+deactivate main
+
+view -> controller : new()
+activate controller
+
+controller -> sl_file : new(file_path, strategy)
+activate sl_file
+
+sl_file --> controller : return
+deactivate sl_file
+
+controller -> data_list : new(array)
+activate data_list
+
+data_list --> controller : return
+deactivate data_list
+
+controller -> data_list : add_observer(view)
+activate data_list
+
+data_list --> controller : return
+deactivate data_list
+
+controller --> view : return
+deactivate controller
+
+view -> view : setup_filter_segment(filter_segment)
+view -> view : setup_table_segment(table_segment)
+view -> view : setup_crud_segment(crud_segment)
+
+activate view
+view -> controller : refresh_data()
+activate controller
+
+controller -> sl_file : get_k_n_student_short_list(k, n, data_list)
+activate sl_file
+
+sl_file -> data_list : new(array, offset)
+activate data_list
+
+data_list --> sl_file : return
+deactivate data_list
+
+sl_file --> controller : return
+deactivate sl_file
+
+controller -> sl_file : get_student_short_count
+activate sl_file
+
+sl_file --> controller : return
+deactivate sl_file
+
+controller -> data_list : count=
+activate data_list
+
+controller -> data_list : notify
+deactivate controller
+
+data_list -> view : set_table_params(get_names(), count)
+data_list -> view : set_table_data(get_data())
+deactivate data_list
+
+view -> view : update_buttons_state
+deactivate view
+
+view -> user : Display data to User
+deactivate view
+deactivate user
+@enduml
