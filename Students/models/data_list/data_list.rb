@@ -6,33 +6,16 @@ class DataList
     attr_accessor :count
 
     def initialize(arr, offset = 0)
-        #self.array = arr.sort()
         self.array = arr
         self.observers = []
-        self.selected = [] #for now I don't get it
+        self.selected = []
         self.offset = offset
         self.count = 0
-
     end
-
-    # def select(number)
-    #     raise ArgumentError "Select argument must be an integer" if !number.is_a?(Integer)
-    #     raise ArgumentError "There is no #{number} index in data_list object of #{self.array.length} elements" if number >= self.array.length
-
-    #     return self.array[number]
-    # end
 
     def select(number)
         self.selected << number unless self.selected.include?(number)
     end
-
-    # def get_selected(a, b)
-    #     begin
-    #         return self.array[a...b]
-    #     rescue Exception
-    #         raise ArgumentError "Invalid index range"
-    #     end
-    # end
 
     def get_selected
         return self.selected
@@ -56,7 +39,6 @@ class DataList
 
     def set_list(new_list)
         self.array.clear()
-        #self.array = new_list.sort()
         self.array = new_list
     end
 
@@ -71,10 +53,6 @@ class DataList
             observer.set_table_data(self.get_data)
         end
     end
-
-    # def count
-    #     return self.array.count
-    # end
 
     def to_s()
         return self.array.to_s

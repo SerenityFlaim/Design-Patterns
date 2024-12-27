@@ -35,11 +35,16 @@ class Student_list_controller
 
     def update(ix)
         return if ix.nil?
-        puts "Изменение записи с индексом: #{number}"
+        puts "Изменение записи с индексом: #{ix}"
     end
 
     def delete(indexes)
         return if indexes.nil?
         puts "Удаление записей с индексами #{indexes}"
+    end
+
+    def renew
+        self.student_list.set_list_from_file
+        self.refresh_data
     end
 end

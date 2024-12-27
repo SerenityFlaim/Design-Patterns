@@ -3,11 +3,12 @@ require_relative '../student_short.rb'
 require_relative '../data_list/data_list_student_short.rb'
 require_relative '../binary_student_tree.rb'
 class Student_list_file
-    private attr_accessor :student_list, :data_storage_strategy
+    private attr_accessor :student_list, :data_storage_strategy, :file_path
 
     def initialize(file_path, data_storage_strategy)
         self.data_storage_strategy = data_storage_strategy
         self.student_list = data_storage_strategy.read(file_path)
+        self.file_path = file_path
     end
 
     #return student objects list from file of choice
@@ -24,13 +25,9 @@ class Student_list_file
         self.student_list.find {|student| student.id == id}
     end
 
-    #return DataList_student_short object containing n objects of k page
-    # def get_k_n_student_short_list(k, n, data_list = nil)
-    #     start = (k - 1) * n
-    #     students_short = self.student_list.map {|student| Student_short.new_from_student(student)}
-    #     data_list ||= DataList_student_short.new(students_short)
-    #     return data_list.set_list((data_list.get_selected(start, start + n)))
-    # end
+    def set_list_from_file
+        self.student_list = data_storage_strategy.read(self.file_path)
+    end
 
     def get_k_n_student_short_list(k, n, data_list = nil)
         start = (k - 1) * n
