@@ -1,6 +1,6 @@
-require "./person.rb"
+require_relative 'person.rb'
 require "date"
-require './binary_student_tree.rb'
+require_relative 'binary_student_tree.rb'
 class Student < Person
     include Comparable
 

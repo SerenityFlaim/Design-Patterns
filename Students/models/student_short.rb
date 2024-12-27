@@ -1,4 +1,4 @@
-require "./person.rb"
+require_relative 'person'
 class Student_short < Person
 
     include Comparable

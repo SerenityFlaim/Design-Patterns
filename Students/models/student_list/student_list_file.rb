@@ -1,7 +1,7 @@
-require './student.rb'
-require './student_short.rb'
-require './data_list_student_short.rb'
-require './binary_student_tree.rb'
+require_relative '../student'
+require_relative '../student_short.rb'
+require_relative '../data_list/data_list_student_short.rb'
+require_relative '../binary_student_tree.rb'
 class Student_list_file
     private attr_accessor :student_list, :data_storage_strategy
 

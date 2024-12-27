@@ -1,4 +1,4 @@
-require "./student.rb"
+require_relative 'student.rb'
 
 class TreeNode
     attr_accessor :data, :left, :right

@@ -1,16 +1,18 @@
 require 'fox16'
-require './data_list_student_short.rb'
-require './student.rb'
-require_relative 'data_table/data_table.rb'
+require_relative '../../models/data_list/data_list_student_short'
+require_relative '../../models/student.rb'
+require_relative '../../models/data_table/data_table.rb'
+require_relative '../controller/student_list_controller.rb'
 
 include Fox
 
 class StudentListView < FXMainWindow
-    private attr_accessor :filters, :table, :prev_button, :next_button, :total_pages, :items_per_page, :page_index, :current_page, :delete_button, :edit_button
+    private attr_accessor :filters, :table, :prev_button, :next_button, :total_pages, :items_per_page, :page_index, :current_page, :delete_button, :edit_button, :controller
 
     def initialize(app)
         super(app, "Students View", width: 1024, height: 768)
 
+        self.controller = Student_list_controller.new(self)
         self.filters = {}
         self.current_page = 1
         self.items_per_page = 20
@@ -206,8 +208,3 @@ class StudentListView < FXMainWindow
     end
 
 end
-
-app = FXApp.new
-sv = StudentListView.new(app)
-app.create
-app.run
