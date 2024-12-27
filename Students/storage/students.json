@@ -35,5 +35,107 @@
         "patronymic": "Aslanbievna",
         "github": "https://github.com/asyanix",
         "birthdate": "22-02-2005"
+    },
+    {
+        "id": 5,
+        "name": "Alexey",
+        "surname": "Ivanov",
+        "patronymic": "Petrovich",
+        "telegram": "@alex_ivan",
+        "phone": "+7(926)-123-45-67",
+        "email": "alex.ivanov@mail.ru",
+        "github": "https://github.com/alexivan",
+        "birthdate": "14-08-2003"
+    },
+    {
+        "id": 6,
+        "name": "Elena",
+        "surname": "Kuznetsova",
+        "patronymic": "Ivanovna",
+        "telegram": "@elena_kuz",
+        "phone": "+7(921)-456-78-90",
+        "email": "elena.kuznetsova@mail.ru",
+        "github": "https://github.com/elenakuz",
+        "birthdate": "19-05-2004"
+    },
+    {
+        "id": 7,
+        "name": "Dmitry",
+        "surname": "Sokolov",
+        "patronymic": "Sergeevich",
+        "telegram": "@d_sokolov",
+        "phone": "+7(915)-987-65-43",
+        "email": "dmitry.sokolov@mail.ru",
+        "github": "https://github.com/dmitrysok",
+        "birthdate": "07-03-2002"
+    },
+    {
+        "id": 8,
+        "name": "Maria",
+        "surname": "Smirnova",
+        "patronymic": "Andreevna",
+        "telegram": "@maria_sm",
+        "phone": "+7(916)-765-43-21",
+        "email": "maria.smirnova@mail.ru",
+        "github": "https://github.com/mariasm",
+        "birthdate": "25-12-2004"
+    },
+    {
+        "id": 9,
+        "name": "Ivan",
+        "surname": "Nikolaev",
+        "patronymic": "Alexeevich",
+        "telegram": "@ivan_nik",
+        "birthdate": "10-11-2003"
+    },
+    {
+        "id": 10,
+        "name": "Svetlana",
+        "surname": "Petrova",
+        "patronymic": "Dmitrievna",
+        "telegram": "@svet_petrova",
+        "phone": "+7(917)-432-12-34",
+        "email": "svetlana.petrova@mail.ru",
+        "birthdate": "02-02-2005"
+    },
+    {
+        "id": 11,
+        "name": "Artem",
+        "surname": "Fedorov",
+        "patronymic": "Maximovich",
+        "phone": "+7(925)-876-54-32",
+        "email": "artem.fedorov@mail.ru",
+        "github": "https://github.com/artemfed",
+        "birthdate": "15-04-2002"
+    },
+    {
+        "id": 12,
+        "name": "Anastasia",
+        "surname": "Orlova",
+        "patronymic": "Pavlovna",
+        "telegram": "@anastasia_orl",
+        "phone": "+7(920)-654-98-76",
+        "email": "anastasia.orlova@mail.ru",
+        "github": "https://github.com/anastasiaorlova",
+        "birthdate": "30-06-2004"
+    },
+    {
+        "id": 13,
+        "name": "Maxim",
+        "surname": "Kovalev",
+        "patronymic": "Igorevich",
+        "telegram": "@max_kov",
+        "github": "https://github.com/maximkov",
+        "birthdate": "18-09-2003"
+    },
+    {
+        "id": 14,
+        "name": "Olga",
+        "surname": "Semenova",
+        "patronymic": "Vladimirovna",
+        "telegram": "@olga_semenova",
+        "phone": "+7(918)-111-22-33",
+        "github": "https://github.com/olgasemenova",
+        "birthdate": "05-01-2004"
     }
 ]

@@ -7,7 +7,8 @@ require_relative '../controller/student_list_controller.rb'
 include Fox
 
 class StudentListView < FXMainWindow
-    private attr_accessor :filters, :table, :prev_button, :next_button, :total_pages, :items_per_page, :page_index, :current_page, :delete_button, :edit_button, :controller
+    private attr_accessor :filters, :table, :prev_button, :next_button, :total_pages, :page_index,  :delete_button, :edit_button, :controller
+    attr_accessor :current_page, :items_per_page
 
     def initialize(app)
         super(app, "Students View", width: 1024, height: 768)
@@ -15,7 +16,7 @@ class StudentListView < FXMainWindow
         self.controller = Student_list_controller.new(self)
         self.filters = {}
         self.current_page = 1
-        self.items_per_page = 20
+        self.items_per_page = 6
         self.total_pages = 0
 
         main_frame = FXHorizontalFrame.new(self, LAYOUT_FILL)
@@ -28,6 +29,10 @@ class StudentListView < FXMainWindow
 
         crud_segment = FXVerticalFrame.new(main_frame, LAYOUT_FIX_WIDTH, width: 130, padding: 10)
         setup_crud_segment(crud_segment)
+
+        self.current_page = 1
+        self.controller.refresh_data
+        update_buttons_state
     end
 
     def create
@@ -81,12 +86,15 @@ class StudentListView < FXMainWindow
 
         self.table.connect(SEL_COMMAND) do |_, _, pos|
             if pos.row == 0 && pos.col == 1
-                sort_table_by_column(pos.col)
+                self.controller.sort_table_by_column
+                self.controller.refresh_data
             end
 
             if pos.col == 0
                 self.table.selectRow(pos.row)
             end
+
+            update_buttons_state
         end
 
         navigation_segment = FXHorizontalFrame.new(parent, opts: LAYOUT_FILL_X)
@@ -96,22 +104,6 @@ class StudentListView < FXMainWindow
 
         self.prev_button.connect(SEL_COMMAND) {change_page(-1)}
         self.next_button.connect(SEL_COMMAND) {change_page(1)}
-
-        #hardcode example
-        self.table.setItemText(1, 0, "1")
-        self.table.setItemText(1, 1, "Матюха Ф.А.")
-        self.table.setItemText(1, 2, "https://github.com/SerenityFlaim")
-        self.table.setItemText(1, 3, "telegram: @Serenity_flaim")
-
-        self.table.setItemText(2, 0, "2")
-        self.table.setItemText(2, 1, "Лотарев С.Ю.")
-        self.table.setItemText(2, 2, "https://github.com/LotarV")
-        self.table.setItemText(2, 3, "telegram: @LotarV")
-
-        self.table.setItemText(3, 0, "3")
-        self.table.setItemText(3, 1, "Смирнов Н.О.")
-        self.table.setItemText(3, 2, "https://github.com/Zaiiiran")
-        self.table.setItemText(3, 3, "telegram: @Zaiiiran")
 
         align_table_items
     end
@@ -138,6 +130,7 @@ class StudentListView < FXMainWindow
         new_page = self.current_page + offset
         return if new_page < 1 || new_page > self.total_pages
         self.current_page = new_page
+        self.controller.refresh_data
     end
 
     def align_table_items
@@ -162,7 +155,19 @@ class StudentListView < FXMainWindow
         return table
     end
 
-    def populate_table(data_table)
+    def set_table_params(column_names, logs_count)
+        column_names.each_with_index do |name, index|
+            self.table.setItemText(0, index, name)
+        end
+        puts("logs_count: #{logs_count}")
+        puts("items_per_page: #{self.items_per_page}")
+
+        self.total_pages = (logs_count / (self.items_per_page - 1).to_f).ceil
+        puts("total_pages: #{self.total_pages}")
+        self.page_index.text = "#{self.current_page} из #{self.total_pages}"
+    end
+
+    def set_table_data(data_table)
         clear_table
         (0...data_table.get_logs_count).each do |row|
             (0...data_table.get_columns_count).each do |col|
@@ -171,19 +176,19 @@ class StudentListView < FXMainWindow
         end
     end
 
-    def sort_table_by_column(col_ix)
-        table = read_table_from_view
+    # def sort_table_by_column
+    #     table = read_table_from_view
 
-        list = []
-        table.each do |row|
-            list << Student_short.new_from_id_string(row[0], "#{row[1]} #{row[2]} #{row[3]}")
-        end
+    #     list = []
+    #     table.each do |row|
+    #         list << Student_short.new_from_id_string(row[0], "#{row[1]} #{row[2]} #{row[3]}")
+    #     end
 
-        dl_stud_short = DataList_student_short.new(list)
-        sorted_table = dl_stud_short.get_data
+    #     dl_stud_short = DataList_student_short.new(list)
+    #     sorted_table = dl_stud_short.get_data
         
-        populate_table(sorted_table)
-    end
+    #     set_table_data(sorted_table)
+    # end
 
     def clear_table
         (0...self.table.numRows).each do |row|
@@ -204,6 +209,14 @@ class StudentListView < FXMainWindow
             if child.is_a?(FXComboBox)
                 child.setCurrentItem(0)
             end
+        end
+    end
+
+    def show_error_message(message)
+        if self.created?
+            FXMessageBox.error(self, MBOX_OK, "Ошибка", message)
+        else
+            puts "Ошибка #{message}"
         end
     end
 

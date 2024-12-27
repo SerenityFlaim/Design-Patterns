@@ -10,17 +10,22 @@ class Student_list_controller
     def initialize(view)
         self.view = view
         begin
-            self.student_list = Student_list_file.new('../students.json', JSON_storage_strategy.new)
+            self.student_list = Student_list_file.new(File.expand_path('../../../storage/students.json', __FILE__), JSON_storage_strategy.new)
             self.data_list = DataList_student_short.new([])
             self.data_list.add_observer(self.view)
-        rescue StandardError => ex
+        rescue Exception => ex
             self.view.show_error_message("Ошибка при взаимодействии с данными #{ex.message}")
         end
     end
 
     def refresh_data
-        self.students_list.get_k_n_student_short_list(self.view.current_page, self.view.items_per_page - 1, self.data_list)
+        self.student_list.get_k_n_student_short_list(self.view.current_page, self.view.items_per_page - 1, self.data_list)
         self.data_list.count = self.student_list.get_student_short_count
+        self.data_list.notify
+    end
+
+    def sort_table_by_column
+        self.student_list.sort_by_fullname!
         self.data_list.notify
     end
 
@@ -34,7 +39,7 @@ class Student_list_controller
     end
 
     def delete(indexes)
-        return if ix.nil?
+        return if indexes.nil?
         puts "Удаление записей с индексами #{indexes}"
     end
 end

@@ -25,18 +25,28 @@ class Student_list_file
     end
 
     #return DataList_student_short object containing n objects of k page
+    # def get_k_n_student_short_list(k, n, data_list = nil)
+    #     start = (k - 1) * n
+    #     students_short = self.student_list.map {|student| Student_short.new_from_student(student)}
+    #     data_list ||= DataList_student_short.new(students_short)
+    #     return data_list.set_list((data_list.get_selected(start, start + n)))
+    # end
+
     def get_k_n_student_short_list(k, n, data_list = nil)
         start = (k - 1) * n
-        students_short = self.student_list.map {|student| Student_short.new_from_student(student)}
-        data_list ||= DataList_student_short.new(students_short)
-        return data_list.set_list((data_list.get_selected(start, start + n)))
+
+        selected_students = student_list[start, n] || []
+        students_short = selected_students.map {|student| Student_short.new_from_student(student)}
+        data_list ||= DataList_student_short.new(students_short, start)
+        data_list.offset = start
+        data_list.set_list(students_short)
+        return data_list
     end
 
     #sorts by initials
     def sort_by_fullname!
         self.student_list.sort_by! {|student| student.get_initials}
     end
-
     #adds student object to student list
     def append_student(student)
         begin
