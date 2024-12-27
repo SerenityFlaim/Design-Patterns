@@ -40,6 +40,31 @@ class StudentListView < FXMainWindow
         show(PLACEMENT_SCREEN)
     end
 
+    def set_table_params(column_names, logs_count)
+        column_names.each_with_index do |name, index|
+            self.table.setItemText(0, index, name)
+        end
+
+        self.total_pages = (logs_count / (self.items_per_page - 1).to_f).ceil
+        self.page_index.text = "#{self.current_page} из #{self.total_pages}"
+    end
+
+    def set_table_data(data_table)
+        clear_table
+        (0...data_table.get_logs_count).each do |row|
+            (0...data_table.get_columns_count).each do |col|
+                self.table.setItemText(row, col, data_table.get_element(row, col).to_s)
+            end
+        end
+    end
+
+    def update_buttons_state
+        selected_rows = (0...self.table.numRows).select {|row| self.table.rowSelected?(row)}
+        self.delete_button.enabled = !selected_rows.empty?
+        self.edit_button.enabled = (selected_rows.size == 1)
+    end
+
+    private
     def setup_filter_segment(parent)
         FXLabel.new(parent, "Фильтрация")
 
@@ -90,6 +115,7 @@ class StudentListView < FXMainWindow
                 self.controller.refresh_data
             end
 
+
             if pos.col == 0
                 self.table.selectRow(pos.row)
             end
@@ -99,7 +125,7 @@ class StudentListView < FXMainWindow
 
         navigation_segment = FXHorizontalFrame.new(parent, opts: LAYOUT_FILL_X)
         self.prev_button = FXButton.new(navigation_segment, "<<<", opts: LAYOUT_LEFT | BUTTON_NORMAL)
-        self.page_index = FXButton.new(navigation_segment, "1", opts: LAYOUT_CENTER_X)
+        self.page_index = FXLabel.new(navigation_segment, "1", opts: LAYOUT_CENTER_X)
         self.next_button = FXButton.new(navigation_segment, ">>>", opts: LAYOUT_RIGHT | BUTTON_NORMAL)
 
         self.prev_button.connect(SEL_COMMAND) {change_page(-1)}
@@ -133,12 +159,6 @@ class StudentListView < FXMainWindow
         self.table.connect(SEL_CHANGED) {update_buttons_state}
     end
 
-    def update_buttons_state
-        selected_rows = (0...self.table.numRows).select {|row| self.table.rowSelected?(row)}
-        self.delete_button.enabled = !selected_rows.empty?
-        self.edit_button.enabled = (selected_rows.size == 1)
-    end
-
     def change_page(offset)
         new_page = self.current_page + offset
         return if new_page < 1 || new_page > self.total_pages
@@ -150,38 +170,6 @@ class StudentListView < FXMainWindow
         self.table.numRows.times do |row|
             self.table.numColumns.times do |col|
               self.table.setItemJustify(row, col, FXTableItem::LEFT | FXTableItem::TOP)
-            end
-        end
-    end
-
-    def read_table_from_view
-        table = []
-        (1...self.table.numRows).each do |row|
-            row_data = []
-            (0...self.table.numColumns).each do |col|
-                row_data << self.table.getItemText(row, col)
-            end
-            break if row_data.all? {|attribute| attribute  == ""}
-
-            table << row_data
-        end
-        return table
-    end
-
-    def set_table_params(column_names, logs_count)
-        column_names.each_with_index do |name, index|
-            self.table.setItemText(0, index, name)
-        end
-
-        self.total_pages = (logs_count / (self.items_per_page - 1).to_f).ceil
-        self.page_index.text = "#{self.current_page} из #{self.total_pages}"
-    end
-
-    def set_table_data(data_table)
-        clear_table
-        (0...data_table.get_logs_count).each do |row|
-            (0...data_table.get_columns_count).each do |col|
-                self.table.setItemText(row, col, data_table.get_element(row, col).to_s)
             end
         end
     end
